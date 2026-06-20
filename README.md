@@ -7,7 +7,7 @@
 <div align="center">
 
   <p>
-    <strong>面向 Gemini 与 OpenAI 兼容模型的可视化深度多智能体推理引擎</strong>
+    <strong>面向 Gemini 与 OpenAI compatible模型的可视化深度多智能体推理引擎</strong>
   </p>
 
   <p>
@@ -71,7 +71,7 @@
 - **思考预算 (Thinking Budget)**：
   - 支持为 **规划**、**执行**、**综合** 三个阶段分别设置思考深度（Minimal, Low, Medium, High）。
   - 这决定了模型在生成 Token 时分配给 "Thinking" 字段的配额。
-- **模型管理**：不预置任何模型配置，启动后由用户自行添加 Gemini API 或 OpenAI 兼容 API 模型。
+- **模型管理**：不预置任何模型配置，启动后由用户自行添加 Gemini API 或 OpenAI compatible API 模型。
 
 ### 🛠️ 现代化工程体验
 
@@ -82,7 +82,7 @@
 ### 📎 附件能力说明
 
 - **Google 模型**：图片、PDF、音视频、文本/代码附件会以内联数据方式发送；对较大的文件，仍可能受上游接口限制。
-- **OpenAI 兼容模型**：支持图片和文本/代码附件；**PDF、音频、视频附件会在发送前被拦截**，避免静默丢失。
+- **OpenAI compatible模型**：支持图片和文本/代码附件；**PDF、音频、视频附件会在发送前被拦截**，避免静默丢失。
 
 ---
 
@@ -107,7 +107,7 @@ npm install
 npm run dev
 ```
 
-访问 `http://localhost:3000` 后，先在「设置 -> 模型管理」中添加至少一个 Gemini API 或 OpenAI 兼容 API 模型。
+访问 `http://localhost:3000` 后，先在「设置 -> 模型管理」中添加至少一个 Gemini API 或 OpenAI compatible API 模型。
 
 ### 4. 运行校验
 
@@ -133,7 +133,7 @@ docker build -t prisma .
 docker run --rm -p 8081:80 prisma
 ```
 
-Docker 镜像会在构建阶段生成静态 `dist/`，并由一个轻量 Node 运行时提供页面和本地 API 代理：浏览器只请求同源的 `/custom-api`，真正的 Gemini/OpenAI 兼容 API 请求由容器内的 Node 服务发出，用来避开浏览器侧 CORS 限制。默认允许常见模型 API 域名；如果要接入自定义网关或本地模型服务，可以追加允许域名：
+Docker 镜像会在构建阶段生成静态 `dist/`，并由一个轻量 Node 运行时提供页面和本地 API 代理：浏览器只请求同源的 `/custom-api`，真正的 Gemini/OpenAI compatible API 请求由容器内的 Node 服务发出，用来避开浏览器侧 CORS 限制。默认允许常见模型 API 域名；如果要接入自定义网关或本地模型服务，可以追加允许域名：
 
 ```bash
 PRISMA_PROXY_ALLOWED_HOSTS=api.example.com,host.docker.internal docker compose up --build
@@ -151,7 +151,7 @@ Cloudflare Pages 会读取仓库根目录的 `.node-version`，当前固定为 N
 | :----------- | :------------------------- | :--------------------------------- |
 | **核心框架** | React 19                   | 使用最新的 React Hooks 和并发特性  |
 | **构建工具** | Vite 6                     | 极速冷启动与热更新                 |
-| **AI SDK**   | `@google/genai` + `openai` | 同时支持 Gemini 与 OpenAI 兼容接口 |
+| **AI SDK**   | `@google/genai` + `openai` | 同时支持 Gemini 与 OpenAI compatible接口 |
 | **样式**     | Tailwind CSS               | 原子化 CSS，配合排版插件           |
 | **数学渲染** | KaTeX + Remark Math        | 高性能 LaTeX 公式渲染              |
 | **代码高亮** | React Syntax Highlighter   | VSCode 风格的代码块高亮            |
@@ -205,7 +205,7 @@ Prisma/
 │   │   ├── synthesis.ts # 最终综合流
 │   │   ├── orchestrator.ts # 核心：多智能体编排逻辑
 │   │   ├── contentBuilder.ts # 内容构建器
-│   │   ├── openaiClient.ts   # OpenAI 兼容客户端
+│   │   ├── openaiClient.ts   # OpenAI compatible客户端
 │   │   └── prompts.ts  # 提示词模板
 │   ├── storage.ts       # 本地存储服务
 │   └── utils/

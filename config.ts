@@ -59,7 +59,7 @@ const isStoredCustomModel = (model: unknown): model is CustomModel => {
     isPlainObject(model) &&
     typeof model.id === 'string' &&
     typeof model.name === 'string' &&
-    (model.provider === 'google' || model.provider === 'openai')
+    (model.provider === 'google' || model.provider === 'openai' || model.provider === 'openai-responses')
   );
 };
 
@@ -234,7 +234,12 @@ export const getAllModels = (config: AppConfig): ModelCatalogItem[] => {
   const customModels = (config.customModels || []).map((m) => ({
     value: m.name,
     label: m.displayName || m.name,
-    desc: m.provider === 'google' ? 'Gemini API 模型' : 'OpenAI 兼容 API 模型',
+    desc:
+      m.provider === 'google'
+        ? 'Gemini API 模型'
+        : m.provider === 'openai-responses'
+          ? 'OpenAI Responses API 模型'
+          : 'OpenAI compatible API 模型',
     provider: m.provider,
   }));
 

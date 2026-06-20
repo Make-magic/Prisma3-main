@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 import ExpertCard from '@/components/ExpertCard';
 import ProcessFlow from '@/components/ProcessFlow';
+import '@/components/MarkdownRenderer';
 import type { AnalysisResult, ExpertResult } from '@/types';
 
 const managerAnalysis: AnalysisResult = {

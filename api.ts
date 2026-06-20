@@ -231,7 +231,7 @@ export const getAI = (config?: AIProviderConfig): AIClient => {
   const customFetch = createCustomFetch(baseUrl, proxyMode);
 
   // Handle OpenAI-compatible providers
-  if (provider === 'openai') {
+  if (provider === 'openai' || provider === 'openai-responses') {
     const options: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: apiKey,
       dangerouslyAllowBrowser: true,
@@ -239,7 +239,9 @@ export const getAI = (config?: AIProviderConfig): AIClient => {
       baseURL: baseUrl || 'https://api.openai.com/v1',
     };
 
-    return new OpenAI(options) as unknown as OpenAIClient;
+    const client = new OpenAI(options) as unknown as OpenAIClient;
+    client.provider = provider;
+    return client;
   }
 
   // Handle Google — use httpOptions.baseUrl for custom endpoint support

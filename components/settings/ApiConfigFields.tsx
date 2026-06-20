@@ -15,11 +15,13 @@ interface ApiConfigFieldsProps {
 const API_KEY_PLACEHOLDER: Record<ApiProvider, string> = {
   google: 'AIza...',
   openai: 'sk-...',
+  'openai-responses': 'sk-...',
 };
 
 const API_KEY_HELP: Record<ApiProvider, string> = {
   google: '支持粘贴一个或多行 Gemini API Key。',
-  openai: '支持 OpenAI 兼容服务的 API Key；本地服务不需要密钥时可以留空。',
+  openai: '支持 OpenAI compatible服务的 API Key；本地服务不需要密钥时可以留空。',
+  'openai-responses': '支持 OpenAI Responses 服务的 API Key；本地服务不需要密钥时可以留空。',
 };
 
 const ApiConfigFields = ({

@@ -12,11 +12,13 @@ interface ApiBaseUrlInputProps {
 const BASE_URL_PLACEHOLDERS: Record<ApiProvider, string> = {
   google: 'https://generativelanguage.googleapis.com/v1beta',
   openai: 'https://api.openai.com/v1',
+  'openai-responses': 'https://api.openai.com/v1',
 };
 
 const HELP_TEXT: Record<ApiProvider, string> = {
   google: 'Gemini 可填写代理根地址或 v1beta 地址；直连官方 API 时可留空。',
-  openai: 'OpenAI 兼容接口通常以 /v1 结尾，适用于 OpenAI、OpenRouter、Ollama、LM Studio 等。',
+  openai: 'OpenAI compatible接口通常以 /v1 结尾，适用于 OpenAI、OpenRouter、Ollama、LM Studio 等。',
+  'openai-responses': 'OpenAI Responses 接口通常以 /v1 结尾，用于直连官方或兼容服务。',
 };
 
 const ApiBaseUrlInput = ({ id, provider, value = '', onChange }: ApiBaseUrlInputProps) => {

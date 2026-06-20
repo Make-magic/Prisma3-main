@@ -21,14 +21,16 @@ export interface GoogleGenAIStreamChunk {
   candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
 }
 
-export type OpenAIClient = Pick<OpenAI, 'chat'>;
+export type OpenAIClient = Pick<OpenAI, 'chat' | 'responses'> & {
+  provider?: 'openai' | 'openai-responses';
+};
 
 export type OpenAIChatCompletion = OpenAI.Chat.ChatCompletion;
 
 export type ModelOption = string;
 export type ThinkingMode = 'dynamic' | 'rr' | 'sg';
 export type ThinkingLevel = 'minimal' | 'low' | 'medium' | 'high';
-export type ApiProvider = 'google' | 'openai';
+export type ApiProvider = 'google' | 'openai' | 'openai-responses';
 
 export type ModelCatalogItem = {
   value: ModelOption;

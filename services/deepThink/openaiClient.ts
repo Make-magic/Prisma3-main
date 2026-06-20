@@ -117,6 +117,79 @@ export const generateContent = async (
   ai: OpenAIClient,
   config: OpenAIConfig,
 ): Promise<{ text: string; thought?: string }> => {
+  if (ai.provider === 'openai-responses') {
+    let input: any;
+    if (Array.isArray(config.content)) {
+      input = [
+        {
+          role: 'user',
+          content: config.content.map((part) => {
+            if (part.type === 'text') {
+              return { type: 'input_text', text: part.text };
+            } else if (part.type === 'image_url') {
+              return { type: 'input_image', image_url: part.image_url.url };
+            }
+            return part;
+          }),
+        },
+      ];
+    } else {
+      input = config.content;
+    }
+
+    const requestOptions: any = {
+      model: config.model,
+      input,
+      temperature: config.temperature,
+    };
+
+    if (config.systemInstruction) {
+      requestOptions.instructions = config.systemInstruction;
+    }
+
+    if (config.responseFormat === 'json_object') {
+      requestOptions.text = {
+        format: { type: 'json_object' },
+      };
+    }
+
+    const reasoningEffort = getOpenAIReasoningEffort(
+      config.model,
+      config.thinkingConfig?.thinkingLevel,
+    );
+    if (reasoningEffort) {
+      requestOptions.reasoning = {
+        effort: reasoningEffort,
+      };
+    }
+
+    try {
+      const response = await withRetry(() => ai.responses.create(requestOptions));
+      const text =
+        (response as any).output_text ||
+        (response as any).output?.find((i: any) => i.type === 'message')?.content?.find((p: any) => p.type === 'output_text')?.text ||
+        '';
+
+      let thought = '';
+      if (config.thinkingConfig?.includeThoughts) {
+        const reasoningItem = (response as any).output?.find((i: any) => i.type === 'reasoning');
+        if (reasoningItem) {
+          thought =
+            reasoningItem.reasoning?.text ||
+            reasoningItem.reasoning?.summary ||
+            reasoningItem.text ||
+            reasoningItem.content ||
+            '';
+        }
+      }
+
+      return { text, thought };
+    } catch (error) {
+      console.error('OpenAI Responses generateContent error:', error);
+      throw error;
+    }
+  }
+
   const messages: Array<OpenAI.Chat.ChatCompletionMessageParam> = [];
 
   if (config.systemInstruction) {
@@ -185,6 +258,61 @@ export async function* generateContentStream(
   ai: OpenAIClient,
   config: OpenAIConfig,
 ): AsyncGenerator<OpenAIStreamChunk, void, unknown> {
+  if (ai.provider === 'openai-responses') {
+    let input: any;
+    if (Array.isArray(config.content)) {
+      input = [
+        {
+          role: 'user',
+          content: config.content.map((part) => {
+            if (part.type === 'text') {
+              return { type: 'input_text', text: part.text };
+            } else if (part.type === 'image_url') {
+              return { type: 'input_image', image_url: part.image_url.url };
+            }
+            return part;
+          }),
+        },
+      ];
+    } else {
+      input = config.content;
+    }
+
+    const requestOptions: any = {
+      model: config.model,
+      input,
+      temperature: config.temperature,
+      stream: true,
+    };
+
+    if (config.systemInstruction) {
+      requestOptions.instructions = config.systemInstruction;
+    }
+
+    const reasoningEffort = getOpenAIReasoningEffort(
+      config.model,
+      config.thinkingConfig?.thinkingLevel,
+    );
+    if (reasoningEffort) {
+      requestOptions.reasoning = {
+        effort: reasoningEffort,
+      };
+    }
+
+    const stream = await withRetry(() => ai.responses.create(requestOptions));
+
+    for await (const event of stream as any) {
+      if (event.type === 'response.output_text.delta') {
+        yield { text: event.delta || '', thought: '' };
+      } else if (event.type === 'response.reasoning_text.delta') {
+        if (config.thinkingConfig?.includeThoughts) {
+          yield { text: '', thought: event.delta || '' };
+        }
+      }
+    }
+    return;
+  }
+
   const messages: Array<OpenAI.Chat.ChatCompletionMessageParam> = [];
 
   if (config.systemInstruction) {

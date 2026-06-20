@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
 import ChatMessage from '@/components/ChatMessage';
+import '@/components/MarkdownRenderer';
 
 describe('ChatMessage', () => {
   it('uses AMC-style model message layout with a side action column', () => {

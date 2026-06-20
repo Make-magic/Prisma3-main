@@ -74,7 +74,7 @@ describe('SettingsModal', () => {
       if (url.endsWith('/releases/latest')) {
         return Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({ tag_name: '0.1.1' }),
+          json: () => Promise.resolve({ tag_name: '0.2.1' }),
         });
       }
 
@@ -180,7 +180,7 @@ describe('SettingsModal', () => {
     const baseUrlInput = within(apiConfig).getByLabelText('Base URL（选填）');
 
     expect(modeGroup.textContent).toContain('Gemini');
-    expect(modeGroup.textContent).toContain('OpenAI 兼容');
+    expect(modeGroup.textContent).toContain('OpenAI compatible');
 
     await user.click(geminiButton);
     await user.type(screen.getByLabelText('Model ID'), 'gemini-2.5-flash');
@@ -288,7 +288,7 @@ describe('SettingsModal', () => {
 
     const aboutSection = screen.getByTestId('settings-about-section');
     const logo = screen.getByLabelText('Prisma 标志');
-    const releaseLink = screen.getByRole('link', { name: /v0\.1\.1/ });
+    const releaseLink = screen.getByRole('link', { name: /v0\.1\.2/ });
     const githubLink = screen.getByRole('link', { name: '在 GitHub 上查看' });
     const starsLink = screen.getByRole('link', { name: /星标/ });
 
@@ -314,7 +314,7 @@ describe('SettingsModal', () => {
       if (url.endsWith('/releases/latest')) {
         return Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({ tag_name: '0.1.2' }),
+          json: () => Promise.resolve({ tag_name: '0.1.3' }),
         });
       }
 
@@ -328,11 +328,11 @@ describe('SettingsModal', () => {
 
     await user.click(screen.getByRole('tab', { name: '关于' }));
 
-    const releaseLink = screen.getByRole('link', { name: /v0\.1\.1/ });
+    const releaseLink = screen.getByRole('link', { name: /v0\.1\.2/ });
 
     await waitFor(() => {
       expect(releaseLink.textContent).toContain('有新版本');
-      expect(releaseLink.getAttribute('title')).toBe('有新版本：0.1.2');
+      expect(releaseLink.getAttribute('title')).toBe('有新版本：0.1.3');
     });
   });
 });

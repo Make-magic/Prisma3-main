@@ -28,7 +28,7 @@ const deepThinkMock = vi.hoisted(() => ({
   experts: [] as ExpertResult[],
   finalOutput: '',
   synthesisThoughts: '',
-  runDeepThink: vi.fn(),
+  runDeepThink: vi.fn().mockImplementation(() => Promise.resolve()),
   stopDeepThink: vi.fn(),
   resetDeepThink: vi.fn(),
   processStartTime: null as number | null,
@@ -137,7 +137,7 @@ describe('useAppLogic', () => {
     deepThinkMock.experts = [];
     deepThinkMock.finalOutput = '';
     deepThinkMock.synthesisThoughts = '';
-    deepThinkMock.runDeepThink.mockReset();
+    deepThinkMock.runDeepThink.mockReset().mockResolvedValue(undefined);
     deepThinkMock.stopDeepThink.mockReset();
     deepThinkMock.resetDeepThink.mockReset();
     deepThinkMock.processStartTime = null;

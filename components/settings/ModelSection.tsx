@@ -38,7 +38,8 @@ const emptyDraft: ModelDraft = {
 
 const providerLabels: Record<ApiProvider, string> = {
   google: 'Gemini',
-  openai: 'OpenAI 兼容',
+  openai: 'OpenAI compatible',
+  'openai-responses': 'OpenAI Responses',
 };
 
 const inputClass =
@@ -119,6 +120,7 @@ const ModelSection = ({ config, setConfig }: ModelSectionProps) => {
 
   const googleItems = modelItems.filter((item) => item.provider === 'google');
   const openaiItems = modelItems.filter((item) => item.provider === 'openai');
+  const responsesItems = modelItems.filter((item) => item.provider === 'openai-responses');
 
   const updateDraft = (updates: Partial<ModelDraft>) => {
     setDraft((current) => ({ ...current, ...updates }));
@@ -299,12 +301,13 @@ const ModelSection = ({ config, setConfig }: ModelSectionProps) => {
         <div className={panelClass} data-testid="settings-model-list-container">
           <div className="max-h-[280px] space-y-2 overflow-y-auto p-1.5 custom-scrollbar">
             {renderProviderGroup('Gemini', googleItems, '暂无 Gemini 模型')}
-            {renderProviderGroup('OpenAI 兼容', openaiItems, '暂无 OpenAI 兼容模型')}
+            {renderProviderGroup('OpenAI compatible', openaiItems, '暂无 OpenAI compatible模型')}
+            {renderProviderGroup('OpenAI Responses', responsesItems, '暂无 OpenAI Responses 模型')}
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--theme-border-secondary)] bg-[var(--theme-bg-secondary)]/30 px-3 py-2 text-xs text-[var(--theme-text-tertiary)]">
             <span>已添加模型 ({modelItems.length})</span>
             <span>
-              Gemini {googleItems.length} / OpenAI 兼容 {openaiItems.length}
+              Gemini {googleItems.length} / OpenAI compatible {openaiItems.length} / OpenAI Responses {responsesItems.length}
             </span>
           </div>
         </div>

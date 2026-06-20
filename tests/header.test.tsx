@@ -137,7 +137,7 @@ describe('Header', () => {
 
     expect(modelButton.getAttribute('aria-expanded')).toBe('true');
     expect(listbox.textContent).toContain('Gemini');
-    expect(listbox.textContent).not.toContain('OpenAI 兼容');
+    expect(listbox.textContent).not.toContain('OpenAI compatible');
     expect(screen.queryByRole('option', { name: /GLM-5 Turbo/ })).toBeNull();
     expect(selectedOption.getAttribute('aria-selected')).toBe('true');
     expect(selectedOption.querySelector('.lucide-check')).toBeTruthy();
@@ -191,7 +191,7 @@ describe('Header', () => {
       name: /^GLM-5 Turbo glm-5-turbo$/,
     });
 
-    expect(listbox.textContent).toContain('OpenAI 兼容');
+    expect(listbox.textContent).toContain('OpenAI compatible');
     expect(customOption.querySelector('.lucide-layers')).toBeTruthy();
 
     await user.click(customOption);

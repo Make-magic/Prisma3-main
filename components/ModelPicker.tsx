@@ -31,7 +31,7 @@ interface ModelPickerProps {
 const PROVIDER_ORDER: ApiProvider[] = ['google', 'openai'];
 const PROVIDER_LABELS: Record<ApiProvider, string> = {
   google: 'Gemini',
-  openai: 'OpenAI 兼容',
+  openai: 'OpenAI compatible',
 };
 
 const buildEntries = (models: ModelCatalogItem[]): ModelPickerEntry[] =>
